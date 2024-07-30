@@ -1,11 +1,26 @@
 import FastNoiseLite from "./modules/FastNoiseLite.js"
 
-let speed = 1000/50;
-let scale = 0.1; // Image scale (I work on 1080p monitor)
 let canvas;
 let ctx;
-let logoColor;
 
+let useDVD = false;
+let useNoise = true;
+
+// DVD screensaver settings
+let logoColor;
+let speed = 1000/50;
+let scale = 0.1;
+
+let dvd = {
+    x: 200,
+    y: 300,
+    xspeed: 2,
+    yspeed: 2,
+    img: new Image()
+};
+
+
+// Noise generator settings
 let noise = new FastNoiseLite();
 noise.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
 noise.SetSeed(Math.floor(Math.random() * 10000));
@@ -29,14 +44,9 @@ noise_dw.SetDomainWarpAmp(30);
 noise_dw.SetSeed(1337);
 noise_dw.SetFrequency(0.01);
 
-let dvd = {
-    x: 200,
-    y: 300,
-    xspeed: 2,
-    yspeed: 2,
-    img: new Image()
-};
+let noise_step = 0;
 
+// Initialization
 (function main(){
     canvas = document.getElementById("main-canvas");
     ctx = canvas.getContext("2d");
@@ -46,11 +56,56 @@ let dvd = {
     //canvas.height = window.innerHeight;
     canvas.width = 720;
     canvas.height = 576;
+})();
 
-    //pickColor();
-    //update();
+var dvdUpdate = setInterval(function() {
+    if (!useDVD) {
+        return;
+    }
+
+    //Draw the canvas background
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    //Draw DVD Logo and his background
+    ctx.fillStyle = logoColor;
+    ctx.fillRect(dvd.x, dvd.y, dvd.img.width*scale, dvd.img.height*scale);
+    ctx.drawImage(dvd.img, dvd.x, dvd.y, dvd.img.width*scale, dvd.img.height*scale);
+
+    //Move the logo
+    dvd.x += dvd.xspeed;
+    dvd.y += dvd.yspeed;
+
+    //Check for collision
+    checkHitBox();
+}, 1000/50);
+
+//Check for border collision
+function checkHitBox(){
+    if(dvd.x + dvd.img.width*scale >= canvas.width || dvd.x <= 0){
+        dvd.xspeed *= -1;
+        pickColor();
+    }
+
+    if(dvd.y + dvd.img.height*scale >= canvas.height || dvd.y <= 0){
+        dvd.yspeed *= -1;
+        pickColor();
+    }
+}
+
+//Pick a random color in RGB format
+function pickColor(){
+    let r = Math.random() * (254 - 0) + 0;
+    let g = Math.random() * (254 - 0) + 0;
+    let b = Math.random() * (254 - 0) + 0;
+
+    logoColor = 'rgb('+r+','+g+', '+b+')';
+}
+
+var noiseInterval = setInterval(function() {
+    if (!useNoise) {
+        return;
+    }
 
     let noise_width = canvas.width;
     let noise_height = canvas.height;
@@ -60,7 +115,7 @@ let dvd = {
         for (let x = 0; x < noise_width; x++) {
             let i = (y * noise_width + x) * 4;
 
-            let noise_value_255 = Math.round(((noise.GetNoise(x,y,1) + 1) / 2) * 255);
+            let noise_value_255 = Math.round(((noise.GetNoise(x, y, noise_step) + 1) / 2) * 255);
 
             if (noise_value_255 > 220) {
                 noise_buffer[i]   = noise_value_255;
@@ -95,54 +150,6 @@ let dvd = {
     var imgData = ctx.createImageData(noise_width, noise_height);
     imgData.data.set(noise_buffer);
     ctx.putImageData(imgData, 0, 0);
-})();
 
-window.onresize = function() {
-    canvas = document.getElementById("main-canvas");
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-
-function update() {
-    setTimeout(() => {
-        //Draw the canvas background
-        ctx.fillStyle = '#000';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        //Draw DVD Logo and his background
-        ctx.fillStyle = logoColor;
-        ctx.fillRect(dvd.x, dvd.y, dvd.img.width*scale, dvd.img.height*scale);
-        ctx.drawImage(dvd.img, dvd.x, dvd.y, dvd.img.width*scale, dvd.img.height*scale);
-
-        //Move the logo
-        dvd.x += dvd.xspeed;
-        dvd.y += dvd.yspeed;
-
-        //Check for collision
-        checkHitBox();
-        update();
-    }, speed)
-}
-
-//Check for border collision
-function checkHitBox(){
-    if(dvd.x + dvd.img.width*scale >= canvas.width || dvd.x <= 0){
-        dvd.xspeed *= -1;
-        pickColor();
-    }
-
-    if(dvd.y + dvd.img.height*scale >= canvas.height || dvd.y <= 0){
-        dvd.yspeed *= -1;
-        pickColor();
-    }
-}
-
-//Pick a random color in RGB format
-function pickColor(){
-    let r = Math.random() * (254 - 0) + 0;
-    let g = Math.random() * (254 - 0) + 0;
-    let b = Math.random() * (254 - 0) + 0;
-
-    logoColor = 'rgb('+r+','+g+', '+b+')';
-}
+    noise_step += 1;
+}, 200);
