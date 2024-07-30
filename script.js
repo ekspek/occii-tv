@@ -1,6 +1,6 @@
 import FastNoiseLite from "./modules/FastNoiseLite.js"
 
-let speed = 20;
+let speed = 1000/50;
 let scale = 0.1; // Image scale (I work on 1080p monitor)
 let canvas;
 let ctx;
@@ -8,7 +8,7 @@ let logoColor;
 
 let noise = new FastNoiseLite();
 noise.SetNoiseType(FastNoiseLite.NoiseType.OpenSimplex2);
-noise.SetSeed(1337);
+noise.SetSeed(Math.floor(Math.random() * 10000));
 noise.SetFrequency(0.003);
 noise.SetRotationType3D(FastNoiseLite.RotationType3D.None);
 
@@ -59,10 +59,35 @@ let dvd = {
     for (let y = 0; y < noise_height; y++) {
         for (let x = 0; x < noise_width; x++) {
             let i = (y * noise_width + x) * 4;
+
             let noise_value_255 = Math.round(((noise.GetNoise(x,y,1) + 1) / 2) * 255);
+
+            if (noise_value_255 > 220) {
+                noise_buffer[i]   = noise_value_255;
+                noise_buffer[i+1] = 0;
+                noise_buffer[i+2] = 0;
+            } else if (noise_value_255 <= 220 && noise_value_255 > 180) {
+                noise_buffer[i]   = noise_value_255;
+                noise_buffer[i+1] = noise_value_255;
+                noise_buffer[i+2] = 0;
+            } else if (noise_value_255 <= 180 && noise_value_255 > 120) {
+                noise_buffer[i]   = 0;
+                noise_buffer[i+1] = noise_value_255;
+                noise_buffer[i+2] = 0;
+            } else if (noise_value_255 <= 120 && noise_value_255 > 60) {
+                noise_buffer[i]   = 0;
+                noise_buffer[i+1] = noise_value_255;
+                noise_buffer[i+2] = noise_value_255;
+            } else {
+                noise_buffer[i]   = 0;
+                noise_buffer[i+1] = 0;
+                noise_buffer[i+2] = noise_value_255;
+            }
+
             noise_buffer[i]   = noise_value_255;
             noise_buffer[i+1] = noise_value_255;
             noise_buffer[i+2] = noise_value_255;
+
             noise_buffer[i+3] = 255;
         }
     }
@@ -120,7 +145,4 @@ function pickColor(){
     let b = Math.random() * (254 - 0) + 0;
 
     logoColor = 'rgb('+r+','+g+', '+b+')';
-}
-
-function getNoiseArray(){
 }
