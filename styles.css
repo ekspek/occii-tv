@@ -1,5 +1,10 @@
 /* Global Styles */
 
+@font-face {
+    font-family: VCR-OSD;
+    src: url('VCR_OSD_MONO_1.001.ttf');
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -7,10 +12,9 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    color: #ffffff;
-    height: 100vh;
+    font-family: VCR-OSD;
+    font-size: xxx-large;
+    line-height: normal;
     margin: 0;
 }
 
@@ -20,10 +24,12 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
+    width: 90%;
 }
 
 .main-text p {
     margin: 20px;
     padding: 10px;
     background-color: #000000;
+    color: #ffffff;
 }
