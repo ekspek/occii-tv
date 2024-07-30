@@ -24,12 +24,17 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-    width: 90%;
+    width: 100%;
 }
 
 .main-text p {
     margin: 20px;
     padding: 10px;
+    text-align: center;
+    display: inline-block;
     background-color: #000000;
     color: #ffffff;
+
+    outline: none;
+    caret-color: transparent;
 }
