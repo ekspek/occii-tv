@@ -42,14 +42,6 @@ body {
     /*animation: 0.7s infinite alternate text-wiggle ease-in-out;*/
 }
 
-.main-bg {
-    text-align: center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
 #main-canvas {
     text-align: center;
     position: absolute;
