@@ -37,6 +37,8 @@ body {
 
     outline: none;
     caret-color: transparent;
+
+    animation: 1s infinite alternate text-wiggle ease-in-out;
 }
 
 .main-bg {
@@ -45,4 +47,13 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+@keyframes text-wiggle {
+    from {
+        transform: rotate(5deg);
+    }
+    to {
+        transform: rotate(-5deg);
+    }
 }
