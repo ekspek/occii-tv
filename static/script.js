@@ -1,4 +1,4 @@
-import FastNoiseLite from "./modules/FastNoiseLite.js"
+import FastNoiseLite from "../modules/FastNoiseLite.js"
 
 let canvas;
 let ctx;
@@ -50,7 +50,7 @@ let noise_step = 0;
 (function main(){
     canvas = document.getElementById("main-canvas");
     ctx = canvas.getContext("2d");
-    dvd.img.src = 'dvd-logo.png';
+    dvd.img.src = 'static/dvd-logo.png';
 
     //canvas.width = window.innerWidth;
     //canvas.height = window.innerHeight;

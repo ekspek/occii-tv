@@ -1,0 +1,23 @@
+{
+  "name": "occii-tv",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ekspek/occii-tv.git"
+  },
+  "author": "Daniel de Schiffart",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ekspek/occii-tv/issues"
+  },
+  "homepage": "https://github.com/ekspek/occii-tv#readme",
+  "dependencies": {
+    "express": "^4.19.2",
+    "fastnoise-lite": "^1.1.1"
+  }
+}
