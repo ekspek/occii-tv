@@ -1,23 +1,30 @@
 {
-  "name": "occii-tv",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ekspek/occii-tv.git"
-  },
-  "author": "Daniel de Schiffart",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ekspek/occii-tv/issues"
-  },
-  "homepage": "https://github.com/ekspek/occii-tv#readme",
-  "dependencies": {
+  "name": "earthbound-battlebackgrounds",
+  "version": "0.0.1",
+  "description": "Earthbound Battle Backgrounds, in your browser!",
+  "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.5.2",
+    "babel-preset-stage-0": "^6.24.1",
+    "babili-webpack-plugin": "^0.1.2",
+    "binary-loader": "^0.0.1",
     "express": "^4.19.2",
-    "fastnoise-lite": "^1.1.1"
+    "standard": "^17.0.0",
+    "string.prototype.padstart": "^3.1.0",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^4.9.2"
+  },
+  "main": "dist/index.js",
+  "scripts": {
+    "compile": "webpack",
+    "lint": "standard *.js src/**/*.js --fix",
+    "prepublishOnly": "npm run compile",
+    "start": "node server",
+    "watch": "NODE_ENV=development webpack -d --watch"
+  },
+  "engines": {
+    "node": ">= 0.8.0"
   }
 }

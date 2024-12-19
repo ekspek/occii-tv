@@ -1,21 +1,208 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <title>Earthbound Battle Backgrounds</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/tachyons/css/tachyons.min.css"
+    />
+    <link rel="stylesheet" href="assets/styles.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="assets/favicon-32x32.png"
+      sizes="32x32"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="assets/favicon-16x16.png"
+      sizes="16x16"
+    />
+    <script src="assets/utils.js"></script>
+    <script src="assets/form.js"></script>
+    <script src="assets/history.js"></script>
+    <script src="assets/history.adapter.native.js"></script>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Noise Visualizer</title>
-    <link rel="stylesheet" href="static/styles.css">
-</head>
+    <script>
+      // var anigif_base_url = `${window.location.origin}/assets/GifW00t-28649fc/anigif/`;
+      var anigif_base_url = `https://www.gjtorikian.com/Earthbound-Battle-Backgrounds-JS/assets/GifW00t-28649fc/anigif/`;
+    </script>
+    <script src="assets/anigif.min.js"></script>
 
-<body>
-    <main>
-        <canvas id="main-canvas"></canvas>
-        <section class="main-text">
-            <p contenteditable="true" spellcheck="false">NO SIGNAL</p>
+    <style>
+      canvas#full {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    </style>
+
+    <meta property="og:title" content="Earthbound Battle Backgrounds" />
+    <meta property="og:locale" content="en_US" />
+    <meta
+      name="description"
+      content="The battle backgrounds from the SNES RPG Earthbound/Mother 2, rendered entirely in client-side JavaScript."
+    />
+    <meta
+      property="og:description"
+      content="The battle backgrounds from the SNES RPG Earthbound/Mother 2, rendered entirely in client-side JavaScript."
+    />
+    <link
+      rel="canonical"
+      href="https://www.gjtorikian.com/Earthbound-Battle-Backgrounds-JS/"
+    />
+    <meta
+      property="og:url"
+      content="https://www.gjtorikian.com/Earthbound-Battle-Backgrounds-JS/"
+    />
+    <meta property="og:site_name" content="Earthbound Battle Backgrounds" />
+    <meta
+      property="og:image"
+      content="https://www.gjtorikian.com/Earthbound-Battle-Backgrounds-JS/assets/card.png"
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@gjtorikian" />
+    <script type="application/ld+json">
+      {
+        "@context": "http://schema.org",
+        "@type": "WebSite",
+        "name": "Earthbound Battle Backgrounds",
+        "headline": "Garen J. Torikian",
+        "image": "https://www.gjtorikian.com/Earthbound-Battle-Backgrounds-JS/assets/card.png",
+        "description": "The battle backgrounds from the SNES RPG Earthbound/Mother 2, rendered entirely in client-side JavaScript.",
+        "sameAs": [
+          "https://twitter.com/gjtorikian",
+          "https://github.com/gjtorikian"
+        ],
+        "url": "https://www.gjtorikian.com/Earthbound-Battle-Backgrounds-JS/"
+      }
+    </script>
+  </head>
+
+  <body class="w-100 sans-serif">
+    <section class="pv2">
+      <canvas-overlay></canvas-overlay>
+      <canvas id="main" class="center"></canvas>
+    </section>
+
+    <section id="everything">
+      <section id="not-canvas">
+        <section id="forms">
+          <div class="mw9 center ph3-ns">
+            <div class="cf ph2-ns">
+              <div class="fl w-100 w-50-ns pa2">
+                <div class="pv2">
+                  <form class="pa2 black-80">
+                    <label for="layer1" class="f5 b db mv2 mb2">Layer 1</label>
+                    <select
+                      id="layer1"
+                      class="w-100 db h2 f5 bg-near-white ba b--sliver"
+                    >
+                      <!-- generated in forms.js -->
+                    </select>
+
+                    <label for="layer2" class="f5 b db mv2 mb2">Layer 2</label>
+                    <select
+                      id="layer2"
+                      class="w-100 db h2 f5 bg-near-white ba b--sliver"
+                    >
+                      <!-- generated in forms.js -->
+                    </select>
+
+                    <label for="suggested" class="f5 b db mv2 mb2"
+                      >Suggested Layers</label
+                    >
+                    <select
+                      id="suggested"
+                      class="w-100 db h2 f5 bg-near-white ba b--sliver"
+                    >
+                      <!-- generated in forms.js -->
+                    </select>
+
+                    <a
+                      id="randomLayer"
+                      class="pointer f5 link dim ba ph3 pv2 mv2 mb2 dib black"
+                      >Random Layers</a
+                    >
+
+                    <a
+                      id="endlessRandom"
+                      class="pointer f5 link dim ba ph3 pv2 mv2 mb2 dib black"
+                      >Endless Random (off)</a
+                    >
+                  </form>
+                </div>
+              </div>
+
+              <div class="fl w-100 w-50-ns pa2">
+                <div class="pv2">
+                  <form class="pa2 black-80">
+                    <label for="aspectRatio" class="f5 b db mv2 mb2"
+                      >Aspect Ratio</label
+                    >
+                    <select
+                      id="aspectRatio"
+                      class="w-100 db h2 f5 bg-near-white ba b--sliver"
+                    >
+                      <option value="0">Full (8:7)</option>
+                      <option value="16">Wide Letterbox (4:3)</option>
+                      <option value="48">Medium Letterbox (2:1)</option>
+                      <option value="64">Narrow Letterbox (8:3)</option>
+                    </select>
+
+                    <label for="frameskip" class="f5 b db mv2 mb2"
+                      >Frameskip</label
+                    >
+                    <select
+                      id="frameskip"
+                      class="w-100 db h2 f5 bg-near-white ba b--sliver"
+                    >
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+                      <option value="10">10</option>
+                    </select>
+
+                    <div class="w-100 db h2 f5"></div>
+                    <div class="w-100 db h2 f5"></div>
+                    <a
+                      id="fullscreen"
+                      class="pointer f5 link dim ba ph3 pv2 mv2 mb2 dib black"
+                      >Go fullscreen!</a
+                    >
+                    <span class="f6"</span>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
-        <script type="module" src="static/script.js"></script>
-    </main>
-</body>
+      </section>
+    </section>
+    <script src="dist/index.js"></script>
+    <script>
+      setTimeout(
+        () => (document.querySelector("canvas-overlay").style.opacity = 0)
+      );
+    </script>
 
+    <section id="vhs-overlay">
+      <canvas id="vhs-main-canvas"></canvas>
+      <section class="vhs-text">
+          <p contenteditable="true" spellcheck="false">NO SIGNAL</p>
+      </section>
+    </section>
+  </body>
 </html>

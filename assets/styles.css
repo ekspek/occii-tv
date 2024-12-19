@@ -1,35 +1,66 @@
-/* Global Styles */
+a.pointer {
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+
+/* for the samples page */
+.row-indicator {
+  font-weight: bold;
+  text-align: center;
+}
+
+canvas,
+canvas-overlay {
+  display: block;
+}
+canvas-overlay {
+  background-color: black;
+  opacity: 1;
+  will-change: opacity;
+  transition: 2s opacity;
+  z-index: 1;
+}
+canvas {
+  image-rendering: optimizeSpeed;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: -o-crisp-edges;
+  image-rendering: pixelated;
+  -ms-interpolation-mode: nearest-neighbor;
+}
+
+/* Custom code */
 
 @font-face {
     font-family: VCR-OSD;
     src: url('VCR_OSD_MONO_1.001.ttf');
 }
 
-* {
+#vhs-overlay {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-}
-
-body {
     font-family: VCR-OSD;
     font-size: xxx-large;
     line-height: normal;
     margin: 0;
-    background-color: #0000ff;
 }
 
-.main-text {
+.vhs-text {
+    font-family: VCR-OSD;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-    width: 100%;
+    /* width: 100%; */
 }
 
-.main-text p {
-    margin: 100px;
+.vhs-text p {
+    margin: 0px;
     padding: 10px;
     text-align: center;
     display: inline-block;
@@ -42,7 +73,7 @@ body {
     /*animation: 0.7s infinite alternate text-wiggle ease-in-out;*/
 }
 
-#main-canvas {
+#vhs-main-canvas {
     text-align: center;
     position: absolute;
     top: 50%;
