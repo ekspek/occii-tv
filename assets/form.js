@@ -255,6 +255,22 @@ document.addEventListener("DOMContentLoaded", function () {
     createSuggestedLayersDropdown();
     setupDropdownPushStates();
     setupSelectedValues();
+
+    /* Custom code */
+    let section = document.getElementById('vhs-text-section');
+    if (section) {
+      section.style.display = "none";
+    }
+
+    let textarea = document.getElementById('textarea-input');
+    textarea.value = `20:30 OPENING ACT
+
+21:30 FOLLOW-UP ACT
+
+22:30 MAIN ACT
+
+23:30 DJ (OPTIONAL)`;
+    /* End of custom code */
   }
 
   window.History.Adapter.bind(window, "statechange", function () {
@@ -397,9 +413,27 @@ function setupFullscreen() {
 
     /* Custom code */
     let section = document.getElementById('vhs-text-section');
-    if (section) {
-      section.style.display = "";
+
+    const textarea = document.getElementById('textarea-input');
+
+    const lines = textarea.value.split(/\r?\n/);
+
+    if (lines) {
+      if (section) {
+        section.style.display = "";
+        section.innerHTML = '';  // Clears all content inside the section
+
+        lines.forEach(text => {
+          if (text) {
+            const p = document.createElement('p');
+            p.textContent = text;
+            section.appendChild(p);
+          }
+          section.appendChild(document.createElement('br'));
+        });
+      }
     }
+
     /* End of custom code */
 
     History.pushState(
