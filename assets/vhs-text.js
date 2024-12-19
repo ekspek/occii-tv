@@ -1,19 +1,29 @@
-const section = document.getElementById('vhs-text-section');
+fetch("assets/text_input.txt")
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('File not found');
+        }
+        return response.text(); // Read the response as text
+    })
+    .then(content => {
+        fileContent = content;
+        const lines = fileContent.split(/\r?\n/);
 
-section.innerHTML = '';  // Clears all content inside the section
+        const section = document.getElementById('vhs-text-section');
 
-const newParagraphs = [
-    "TWO LINES",
-    "TOGETHER",
-    "",
-    "ANOTHER BAND"
-];
+        section.innerHTML = '';  // Clears all content inside the section
 
-newParagraphs.forEach(text => {
-    if (text) {
-        const p = document.createElement('p');
-        p.textContent = text;
-        section.appendChild(p);
-    }
-    section.appendChild(document.createElement('br'));
-});
+        lines.forEach(text => {
+            if (text) {
+                const p = document.createElement('p');
+                p.textContent = text;
+                section.appendChild(p);
+            }
+            section.appendChild(document.createElement('br'));
+        });
+    })
+    .catch(error => {
+        console.error('Error fetching file:', error);
+    });
+
+
