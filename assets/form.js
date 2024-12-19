@@ -394,6 +394,14 @@ function setupFullscreen() {
   if (canvas.getAttribute("id") != "full") {
     canvas.setAttribute("id", "full");
     content.classList.add("hidden");
+
+    /* Custom code */
+    let section = document.getElementById('vhs-text-section');
+    if (section) {
+      section.style.display = "";
+    }
+    /* End of custom code */
+
     History.pushState(
       { fullscreen: true },
       document.title,
@@ -408,6 +416,14 @@ document.addEventListener("keyup", function (event) {
     var content = document.querySelector("section#everything");
     canvas.setAttribute("id", "");
     content.classList.remove("hidden");
+
+    /* Custom code */
+    let section = document.getElementById('vhs-text-section');
+    if (section) {
+      section.style.display = "none";
+    }
+    /* End of custom code */
+
     History.pushState(
       { fullscreen: null },
       document.title,
